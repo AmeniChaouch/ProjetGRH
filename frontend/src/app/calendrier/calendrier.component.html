@@ -292,27 +292,20 @@
         <div class="card card-table">
         <div class="card-body">
         
-            <div class="page-header">
-                <div class="row align-items-center">
-                <div class="col">
-                <h3 class="page-title">Employees</h3>
-                </div>
-                <div class="col-auto text-end float-end ms-auto download-grp">
-                    <a routerLink="/employee-add" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> 
-                      </a>
-                      
-                </div>
-                </div>
-                </div>
-       
-          
+           
                 <mat-card class="calendar-card">
-                    <mat-card-header>
-                      <mat-card-title>Calendrier des Absences</mat-card-title>
-                    </mat-card-header>
+                   <!-- <mat-card-header>
+                      <mat-card-title>Ajouter Employé et Absence</mat-card-title>
+                    </mat-card-header>-->
                   
                     <mat-card-content>
+                      <!-- Nom de l'employé -->
+                      <div class="form-group">
+                       
+                        <input type="text" class="form-control" id="name" name="name" [(ngModel)]="user.employee_id" required>
+                      </div>
+                  
+                      <!-- Sélection de la date -->
                       <mat-form-field appearance="fill" class="calendar-datepicker">
                         <mat-label>Sélectionner une date</mat-label>
                         <input matInput [matDatepicker]="picker" placeholder="Choisir une date" [(ngModel)]="selectedDate">
@@ -320,6 +313,7 @@
                         <mat-datepicker #picker></mat-datepicker>
                       </mat-form-field>
                   
+                      <!-- Affichage du calendrier (optionnel) -->
                       <div class="calendar-display">
                         <div class="calendar-header">
                           <button mat-icon-button (click)="previousMonth()">
@@ -330,17 +324,18 @@
                             <mat-icon>chevron_right</mat-icon>
                           </button>
                         </div>
-                  
                         <div class="weekdays">
                           <div class="weekday" *ngFor="let day of weekDays">{{ day }}</div>
                         </div>
-                  
                         <div class="days">
                           <div *ngFor="let day of daysInMonth" class="day" (click)="selectDate(day)">
                             <span>{{ day.date }}</span>
                           </div>
                         </div>
                       </div>
+                  
+                      <!-- Bouton pour enregistrer l'absence -->
+                      <button mat-raised-button color="primary" (click)="saveAbsence()">Enregistrer l'absence</button>
                     </mat-card-content>
                   </mat-card>
           

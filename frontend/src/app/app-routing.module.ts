@@ -11,6 +11,7 @@ import { TestComponent } from './test/test.component';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { UpdateEmployeeComponent } from './update-employee/update-employee.component';
 import { CalendrierComponent } from './calendrier/calendrier.component';
+import { ListAbsenceComponent } from './list-absence/list-absence.component';
 const routes: Routes = [
   {path:'register', component: RegisterComponent},
   {path:'users/update/:id',component: UpdateUserComponent},
@@ -21,7 +22,7 @@ const routes: Routes = [
   {path:'header', component: HeaderComponent},
   {path:'employee-add', component: AddEmployeeComponent},
   {path:'employee-update/:id', component: UpdateEmployeeComponent},
- 
+  {path:'absences-list', component: ListAbsenceComponent},
   {path:'calendrier', component: CalendrierComponent},
 ];
 

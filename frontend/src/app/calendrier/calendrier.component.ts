@@ -11,33 +11,37 @@ export class CalendrierComponent implements OnInit {
   currentMonth: Date = new Date();
   weekDays: string[] = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
   daysInMonth: { date: number | null, day: number }[] = [];
-  selectedDate: Date | null = null;
-
+  
+  selectedDate: Date | undefined; // Variable pour stocker la date sélectionnée
+  user = {
+    employee_id: '' // Cette variable sera liée au champ de l'ID employé
+  };
   employeeId: string = '';          // ID de l'employé
 
   ngOnInit(): void {
     this.generateCalendar();
   }
 
+ 
+  
+
+
   constructor(private http: HttpClient) {}
 
-  // Méthode pour soumettre les données
-  saveDate() {
-    if (this.selectedDate && this.employeeId) {
-      const payload = {
-        date: this.selectedDate,
-        employeeId: this.employeeId
-      };
+  // Fonction appelée lorsque l'on clique sur "Enregistrer l'absence"
+  saveAbsence() {
+    const absenceData = {
+      employeeId: this.user.employee_id,
+      date: this.selectedDate
+    };
 
-      this.http.post('http://localhost:3000/api/save-date', payload)
-        .subscribe(response => {
-          console.log('Date enregistrée avec succès !', response);
-        }, error => {
-          console.error('Erreur lors de l\'enregistrement :', error);
-        });
-    } else {
-      console.warn('Veuillez sélectionner une date et fournir un ID employé.');
-    }
+    // Envoi de la date et de l'ID employé au backend pour l'enregistrement dans la base de données
+    this.http.post('http://localhost:3001/api/absences/save-date', absenceData)
+      .subscribe(response => {
+        console.log('Absence enregistrée avec succès:', response);
+      }, error => {
+        console.error('Erreur lors de l\'enregistrement de l\'absence:', error);
+      });
   }
 
   generateCalendar(): void {
@@ -56,6 +60,7 @@ export class CalendrierComponent implements OnInit {
       }
     }
   }
+ 
 
   previousMonth(): void {
     this.currentMonth.setMonth(this.currentMonth.getMonth() - 1);

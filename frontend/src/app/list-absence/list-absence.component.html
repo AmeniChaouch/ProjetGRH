@@ -342,11 +342,9 @@
         <input class="form-check-input" type="checkbox" value="something">
         </div>
         </th>
-        <th>ID</th>
-        <th>Nom</th>
-        <th>Profession</th>
-        <th>Departement</th>
-        <th class="text-end">Actions</th>
+        <th>IDEmployee</th>
+        <th>Date</th>
+        <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -358,11 +356,10 @@
                 <input class="form-check-input" type="checkbox" value="something">
                 </div>
                 </td>
-        <td>{{user.name}} </td>
+        <td>{{user.employeeId}} </td>
         
-        <td><h2>{{user.position}}</h2></td>
-        <td><h2>{{user.department}}</h2></td>
-        <td><h2>{{user.salary}}</h2></td>
+        <td><h2>{{ user.date | date: 'dd/MM/yyyy' }}</h2></td>
+        
         <td class="text-end">
             <div class="actions">
                 <!--a  (click)="deleteAuction(e.id)" class="btn btn-sm bg-success-light me-2">

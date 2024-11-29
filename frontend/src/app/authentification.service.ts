@@ -62,9 +62,28 @@ export class AuthentificationService {
   handleError(handleError: any): import("rxjs").OperatorFunction<any, any> {
     throw new Error('Method not implemented.');
   }
-
+ 
   deleteUser(id: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`)
+  
+  }
+  apiUrl2= "http://localhost:3001/api/absences";
+  getAbsences(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl2}`);
+  }
+  getAbsencesById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl2}/${id}`)
+  }
+
+  updateAbsences(id: string, userData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl2}/${id}`, userData)
+    }
+  handleAbsences(handleError: any): import("rxjs").OperatorFunction<any, any> {
+    throw new Error('Method not implemented.');
+  }
+ 
+  deleteAbsences(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl2}/${id}`)
   
   }
  
