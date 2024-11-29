@@ -17,10 +17,13 @@ mongoose
 app.use("/api/users",users);
 
 
-
 // Routes
 const employeeRoutes = require("./routes/api/Employee");
 app.use("/api/employees", employeeRoutes);
+
+
+const absencesRoutes = require("./routes/api/Absences");
+app.use("/api/absences", absencesRoutes);
 
 const port =process.env.port || 3001;
 app.listen(port, () => console.log (`server running on port ${port}`));
