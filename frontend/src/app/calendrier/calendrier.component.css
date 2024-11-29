@@ -1,0 +1,75 @@
+/* calendrier.component.css */
+.calendar-card {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .calendar-datepicker {
+    width: 100%;
+  }
+  
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .month-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #f1f1f1;
+    padding: 10px;
+  }
+  
+  .weekday {
+    text-align: center;
+    font-weight: bold;
+    color: #1a4bdb;
+  }
+  
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 5px;
+    padding: 10px;
+  }
+  
+  .day {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .day:hover {
+    background-color: #1a4bdb;
+    color: white;
+    transform: scale(1.1);
+  }
+  
+  .day.selected {
+    background-color: #FFD700;
+    color: white;
+  }
+  
+  .day.disabled {
+    background-color: transparent;
+    cursor: default;
+  }
+  

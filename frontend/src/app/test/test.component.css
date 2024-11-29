@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 250px; /* Largeur de la navbar quand elle est ouverte */
+    transition: width 0.3s ease; /* Animation pour ouverture/fermeture */
+  }
+  
+  .sidebar.closed {
+    width: 60px; /* Largeur réduite de la navbar quand elle est fermée */
+  }
+  
+  .content {
+    flex: 1; /* Prend tout l'espace restant */
+    padding: 20px;
+  }
+  
