@@ -362,18 +362,11 @@
         
         <td class="text-end">
             <div class="actions">
-                <!--a  (click)="deleteAuction(e.id)" class="btn btn-sm bg-success-light me-2">
-                <i class="feather-delete"></i>
-                </a-->
+                
                 <button type="button" class="btn btn-danger" (click)="onDeleteUser(user._id)">
                     Supprimer
                   </button>
-                <!--a  (click)="getMatiereData(e)" class="btn btn-sm bg-danger-light" data-bs-toggle="modal" data-bs-target="#editreverseModal">
-                <i class="feather-edit"></i>
-                </a-->
-                <button type="button" class="btn btn-primary"   [routerLink]="['/employee-update', user._id]">
-                    Modifier
-                  </button>
+                
                 </div>
         </td>
             </tr>
@@ -390,3 +383,6 @@
     </div>
 
 </div>
+
+
+

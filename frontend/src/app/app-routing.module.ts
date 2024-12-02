@@ -12,6 +12,9 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { UpdateEmployeeComponent } from './update-employee/update-employee.component';
 import { CalendrierComponent } from './calendrier/calendrier.component';
 import { ListAbsenceComponent } from './list-absence/list-absence.component';
+import { AccueilComponent } from './accueil/accueil.component';
+import { Login1Component } from './login1/login1.component';
+import { SubscribeComponent } from './subscribe/subscribe.component';
 const routes: Routes = [
   {path:'register', component: RegisterComponent},
   {path:'users/update/:id',component: UpdateUserComponent},
@@ -24,6 +27,9 @@ const routes: Routes = [
   {path:'employee-update/:id', component: UpdateEmployeeComponent},
   {path:'absences-list', component: ListAbsenceComponent},
   {path:'calendrier', component: CalendrierComponent},
+  {path:'', component: AccueilComponent},
+  {path:'login1', component: Login1Component},
+  {path:'subscribe', component: SubscribeComponent},
 ];
 
 @NgModule({

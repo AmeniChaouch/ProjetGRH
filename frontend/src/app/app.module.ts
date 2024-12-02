@@ -25,6 +25,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerToggle } from '@angular/material/datepicker';  // Pour le toggle du datepicker
 import { MatNativeDateModule } from '@angular/material/core';
 import { ListAbsenceComponent } from './list-absence/list-absence.component';
+import { AccueilComponent } from './accueil/accueil.component';
+import { Login1Component } from './login1/login1.component';
+import { SubscribeComponent } from './subscribe/subscribe.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +42,9 @@ import { ListAbsenceComponent } from './list-absence/list-absence.component';
     UpdateEmployeeComponent,
     CalendrierComponent,
     ListAbsenceComponent,
+    AccueilComponent,
+    Login1Component,
+    SubscribeComponent,
     
   ],
   imports: [

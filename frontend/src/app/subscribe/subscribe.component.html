@@ -1,0 +1,56 @@
+<div class="main-wrapper login-body">
+    <div class="login-wrapper">
+    <div class="container">
+    <div class="loginbox">
+    <div class="login-left">
+    <img class="img-fluid" src="assets/image.png" alt="Logo">
+    </div>
+    <div class="login-right">
+    <div class="login-right-wrap">
+    <h1>S'inscrire</h1>
+    <p class="account-subtitle">Entez vos données pour créer un compte</p>
+    
+    <form method="post" #addForm="ngForm" >
+    
+    <div class="form-group">
+        <label>prenom<span class="login-danger">*</span></label>
+    <input class="form-control" type="text" name="prenomEleve" >
+    <span class="profile-views"><i class="fas fa-envelope"></i></span>
+</div>
+<div class="form-group">
+    <label>nom<span class="login-danger">*</span></label>
+<input class="form-control" type="text"  name="nomEleve" >
+<span class="profile-views"><i class="fas fa-envelope"></i></span>
+</div>
+    <div class="form-group">
+    <label>Email <span class="login-danger">*</span></label>
+    <input class="form-control" type="email" name="email" >
+    <span class="profile-views"><i class="fas fa-envelope"></i></span>
+    </div>
+
+    <div class="form-group">
+    <label>Mot de passe <span class="login-danger">*</span></label>
+    <input class="form-control pass-input" type="password" name="password" >
+    <span class="profile-views feather-eye toggle-password"></span>
+    </div>
+    <div class="form-group">
+    <label>Confirmez mot de passe <span class="login-danger">*</span></label>
+    <input class="form-control pass-confirm" type="password" name="plainPassword" ngModel>
+    <span class="profile-views feather-eye reg-toggle-password"></span>
+    </div>
+   
+    <div class=" dont-have">Déja inscris? <a routerLink="/login">Se connecter</a></div>
+    <div class="form-group mb-0">
+    <button class="btn btn-primary btn-block" type="submit">S'inscrire</button>
+    </div>
+    </form>
+    
+   
+   
+    
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
