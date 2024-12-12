@@ -124,6 +124,14 @@ deleteDep(id: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl2}/${id}`)
   
   }
+  getAbsencesbyDate(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl2}/absences`);
+  }
  
+
+  getAbsencesByDay(): Observable<any> {
+    let url = `${this.apiUrl2}/countByActiveDays`;
+    return this.http.get<any>(url);
+  }
 
 }

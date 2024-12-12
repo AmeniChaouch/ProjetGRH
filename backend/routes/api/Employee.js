@@ -74,5 +74,16 @@ router.delete("/:id", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+router.get('/totalEmployees', async (req, res) => {
+    try {
+      // Compter le nombre total d'employés
+      const totalEmployees = await Employees.countDocuments();
+  
+      res.status(200).json({ totalEmployees });
+    } catch (err) {
+      console.error('Erreur lors de la récupération du nombre total d\'employés :', err);
+      res.status(500).json({ message: 'Erreur lors de la récupération du nombre total d\'employés.' });
+    }
+  });
 
 module.exports = router;

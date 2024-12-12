@@ -50,21 +50,72 @@ router.post("/save-date", async (req, res) => {
     }
   });
  router.get('/absences', async (req, res) => {
-    try {
-      const { date } = req.query; // date passée en paramètre de la requête
-      const startOfDay = new Date(date);
-      const endOfDay = new Date(date);
-      endOfDay.setHours(23, 59, 59, 999);
-  
-      const absences = await Absences.find({
-        date: { $gte: startOfDay, $lte: endOfDay }
-      });
-  
-      res.status(200).json(absences);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Erreur lors de la récupération des absences' });
+  try {
+    // Récupérer et trier toutes les absences
+    const absences = await Absences.find().sort({ date: 1 }); // 1 pour tri croissant, -1 pour décroissant
+
+    if (absences.length === 0) {
+      return res.status(404).json({ message: 'Aucune absence trouvée.' });
     }
-  });
-  
+
+    res.status(200).json(absences);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur lors de la récupération des absences.' });
+  }
+});
+router.get('/absences1', async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+
+    // Vérifiez si les dates sont valides
+    const start = startDate ? new Date(startDate) : new Date('1970-01-01');
+    const end = endDate ? new Date(endDate) : new Date();
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return res.status(400).json({ message: 'Dates invalides.' });
+    }
+
+    // Filtrer par intervalle et trier
+    const absences = await Absences.find({
+      date: { $gte: start, $lte: end },
+    }).sort({ date: 1 });
+
+    if (absences.length === 0) {
+      return res.status(404).json({ message: 'Aucune absence trouvée pour cet intervalle.' });
+    }
+
+    res.status(200).json(absences);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur lors de la récupération des absences.' });
+  }
+});
+router.get('/countByActiveDays', async (req, res) => {
+  try {
+    // Étape 1 : Grouper par date et compter les absences
+    const absencesPerDay = await Absences.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } }, // Grouper par date
+          count: { $sum: 1 }, // Compter les absences par jour
+        },
+      },
+    ]);
+
+    // Étape 2 : Calculer la somme des absences (total des valeurs "count")
+    const totalAbsences = absencesPerDay.reduce((sum, day) => sum + day.count, 0);
+
+    res.status(200).json({
+      daysWithAbsences: absencesPerDay.length, // Nombre de jours avec des absences
+      totalAbsences, // Nombre total d'absences
+      details: absencesPerDay, // Détails des absences par jour
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur lors du calcul des absences.' });
+  }
+});
+
+
   module.exports = router;
