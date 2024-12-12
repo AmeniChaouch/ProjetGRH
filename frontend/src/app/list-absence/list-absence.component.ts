@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthentificationService } from '../authentification.service';
-import { UserService } from '../user.service';
 @Component({
   selector: 'app-list-absence',
   templateUrl: './list-absence.component.html',

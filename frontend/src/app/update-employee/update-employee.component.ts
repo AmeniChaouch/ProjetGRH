@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthentificationService } from '../authentification.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { log } from 'console';
 
 interface Department {
   _id: string;
@@ -25,7 +26,12 @@ export class UpdateEmployeeComponent implements OnInit {
     name: [''],
     department: [''],
     profession: [''],
-    salary: ['']
+    salary: [''],
+    username: [''],
+    password: [''],
+    email: [''],
+    gender: ['']
+
   });
   departments: any[] = [];
   availableProfessions: string[] = [];
@@ -44,76 +50,53 @@ export class UpdateEmployeeComponent implements OnInit {
       profession: ['', Validators.required],
       department: ['', Validators.required],
       salary: ['', [Validators.required, Validators.min(0)]],
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+    email: ['', Validators.required],
+    gender: ['', Validators.required],
+
     });
   }
-
-  
-
-  loadEmployeeData() {
-    // Fetch employee data by ID (example API call)
-    this.userService.getUserById(this.userId).subscribe((employee) => {
-      this.updateForm.patchValue(employee);
-      this.currentDepartmentName = this.getDepartmentNameById(employee.department);
-    });
-  }
-
-  /*loadDepartments() {
-    this.employeeService.getDepartments().subscribe((departments) => {
-      this.departments = departments;
-    });
-  }*/
-
-  getDepartmentNameById(departmentId: string): string {
-    const department = this.departments.find((d) => d._id === departmentId);
-    return department ? department.departmentName : 'Unknown';
-  }
-
  
 
   
+    ngOnInit(): void {
+      // Retrieve the employee ID from the route
+      this.userId = this.route.snapshot.paramMap.get('id') || '';
   
-  ngOnInit(): void {
-   // this.loadDepartments();
-    this.loadEmployeeData();
-    // Fetch departments first
-    this.userService.getDeps().subscribe(
-      (data: Department[]) => {
-        this.departments = data;
+      // Fetch departments and load employee data
+      this.userService.getDeps().subscribe(
+        (departments) => {
+          this.departments = departments;
+          if (this.userId) {
+            this.loadEmployeeData();
+          }
+        },
+        (error) => console.error('Error fetching departments:', error)
+      );
+    }
   
-        // Fetch employee data if employee ID is available
-        this.userId = this.route.snapshot.paramMap.get('id') || '';
-        if (this.userId) {
-          this.userService.getUserById(this.userId).subscribe(
-            (user) => {
-              // Set employee data to the form
-              this.updateForm.patchValue({
-                name: user.name,
-                profession: user.profession,
-                department: user.department._id, // Pre-select the department by ID
-                salary: user.salary,
-              });
+    loadEmployeeData(): void {
+      this.userService.getUserById(this.userId).subscribe(
+        (employee) => {
+          // Patch the form with employee data
+          this.updateForm.patchValue(employee);
   
-              // Preload professions for the selected department
-              const selectedDepartment = this.departments.find(
-                (dept) => dept._id === user.department._id
-              );
-              if (selectedDepartment) {
-                this.availableProfessions = selectedDepartment.professions;
-                // Pre-select the profession based on the employee's data
-                this.updateForm.patchValue({ profession: user.profession });
-              }
-            },
-            (error) => {
-              console.error('Error fetching employee data', error);
-            }
+          // Find the department and set available professions
+          const department = this.departments.find(
+            (dept) => dept._id === employee.department
           );
-        }
-      },
-      (error) => {
-        console.error('Error fetching departments', error);
-      }
-    );
-  }
+          if (department) {
+            this.availableProfessions = department.professions;
+  
+            // Pre-select the profession
+            this.updateForm.patchValue({ profession: employee.profession });
+          }
+        },
+        (error) => console.error('Error fetching employee data:', error)
+      );
+    }
+  
   
   
   // Handle department change

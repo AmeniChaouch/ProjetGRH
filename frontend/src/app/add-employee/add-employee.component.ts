@@ -34,12 +34,18 @@ export class AddEmployeeComponent implements OnInit{
   register(){
     console.log("okkk")
     const UserData={
+      username:this.user.username,
+      email:this.user.email, 
+      password:this.user.password,
+      role:"employee",
       name: this.user.name,
       profession: this.user.profession,
       department: this.user.department,
       salary: this.user.salary,
+      gender: this.user.gender
+
     }
-    this.userService.registerEmployee(UserData).subscribe(
+    this.userService.registerUser(UserData).subscribe(
       (response)=>{
         console.log(response);
         this.router.navigate(['/test']);

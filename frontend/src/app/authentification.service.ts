@@ -10,28 +10,8 @@ export class AuthentificationService {
 
   constructor(private http: HttpClient,private cookieService: CookieService) { }
 
-  registerUser(UserData:any): Observable<any>{
-    return this.http.post('http://localhost:3001/api/users/register', UserData,{
-      headers:{
-        'Content-Type': 'application/json'
-      }
 
-    });
-  }
-  registerEmployee(UserData: any): Observable<any> {
-    return this.http.post('http://localhost:3001/api/employees', UserData, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).pipe(
-      catchError(error => {
-        console.error('Une erreur s\'est produite lors de l\'enregistrement de l\'employé:', error);
-        return throwError(error);
-      })
-    );
-  }
-
-////////////
+///department
 apiUrl_dep= "http://localhost:3001/api/departments";
 
 addDepartment(depData: any): Observable<any> {
@@ -63,15 +43,21 @@ deleteDep(id: string): Observable<any> {
   return this.http.delete<any>(`${this.apiUrl_dep}/${id}`)
 
 }
-//////////////
 
+///////user
 
+apiUrl= "http://localhost:3001/api/users";
 
+registerUser(UserData:any): Observable<any>{
+  return this.http.post('http://localhost:3001/api/users/register', UserData,{
+    headers:{
+      'Content-Type': 'application/json'
+    }
 
-  isTokenValid(token: string): boolean {
-    // Placeholder validation logic (e.g., expiration check)
-    return !!token;
-  }
+  });
+}
+
+  
   loginUser(email:string,password:string): Observable<any>{
   const url ='http://localhost:3001/api/users/login-user'
     const body={
@@ -79,32 +65,61 @@ deleteDep(id: string): Observable<any> {
   };
   return this.http.post<any>(url,body).pipe(
     catchError((error)=>{
-      console.error('error',error);
-      return throwError('eeddddd');
+      console.error('Login error:', error.message || error);
+        return throwError(() => new Error('Login failed. Please try again.'));
     })
   );
   }
-  apiUrl= "http://localhost:3001/api/employees";
 
-  
+ 
+
   getUsers(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}`);
+    return this.http.get<any>(`${this.apiUrl}/all`);
   }
   getUserById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`)
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   updateUser(id: string, userData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, userData)
-    }
-  handleError(handleError: any): import("rxjs").OperatorFunction<any, any> {
-    throw new Error('Method not implemented.');
+    return this.http.put<any>(`${this.apiUrl}/${id}`, userData).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  deleteUser(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  isTokenValid(token: string): boolean {
+    // Validation simple, vérifier la structure JWT ou autre logique d'expiration
+    return !!token;
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('API error occurred:', error);
+    return throwError('Une erreur est survenue ; veuillez réessayer.');
   }
  
-  deleteUser(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`)
-  
+  getUserRole(): string {
+    return this.cookieService.get('role'); 
   }
+
+  isAdmin(): boolean {
+    return this.getUserRole() === 'admin';
+  }
+  private username: string = '';
+
+ 
+  getUsername(): string {
+    return this.cookieService.get('username'); 
+  }
+
+  
+  ///////////absence
   apiUrl2= "http://localhost:3001/api/absences";
   getAbsences(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl2}`);

@@ -2,29 +2,42 @@ const router =require("express").Router();
 const bcrypt =require("bcryptjs");
 const config =require ("config");
 const jwt =require("jsonwebtoken");
-const User=require("../../models/User");
+const User=require("../../models/Employee");
+const mongoose = require("mongoose");
+
 //@route POST api/users
 //@desc register new user
 //@access Public
 
 router.post("/register",(req,res)=>{
-    const {username, email, password, role}=req.body;
+    const {username, email, password, role,name, profession, department, salary,gender}=req.body;
     
-    if (!username|| !email ||! password){
+    if (!username|| !email ||! password  ||! name ||! profession ||! department ||!salary ||! role  ||! gender){
         return res.status(400).send({status: "notok", msg:"please enter infos"});
     }
+
+     // Validate department is a valid ObjectId
+     if (!mongoose.Types.ObjectId.isValid(department)) {
+      return res.status(400).json({ error: "Invalid department ID" });
+  }
 
 User.findOne({email:email}).then((user)=>{
     if(user){
         return resizeBy.status(400).send({status: "notokmail", msg: "Email already exists"});
     }
-
+     
     //create new user instance
     const newUser= new User({
+      
         username,
         email,
         password,
-        role
+        role,
+        name,
+        profession, 
+        department, 
+        salary,
+        gender
     })
 
 
@@ -70,12 +83,11 @@ newUser.save().then((user)=>{
 
 })
 });
-module.exports=router;
 
 // Lire tous les utilisateurs (READ)
 router.get('/all', async (req, res) => {
     try {
-      const users = await User.find();
+      const users = await User.find().populate({ path: 'department', select: 'departmentName' });
       res.status(200).json(users);
     } catch (error) {
       res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs', error });
@@ -100,12 +112,12 @@ router.get('/all', async (req, res) => {
   // Mettre à jour un utilisateur par ID (UPDATE)
   router.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const { username, email, password, role } = req.body;
+    const { username, email, password, role,name, profession, department, salary } = req.body;
   
     try {
       const updatedUser = await User.findByIdAndUpdate(
         id,
-        { username, email, password, role },
+        { username, email, password, role,name, profession, department, salary,gender },
         { new: true }
       );
       if (!updatedUser) {
@@ -163,7 +175,7 @@ router.post("/login-user", (req, res) => {
           }
 
           // Retournez le token et le rôle dans la réponse
-          return res.status(200).json({ token, role: user.role });
+          return res.status(200).json({ token, role: user.role,username:user.username });
         }
       );
     });
@@ -174,5 +186,6 @@ router.post("/login-user", (req, res) => {
 });
 
 
+module.exports=router;
 
   

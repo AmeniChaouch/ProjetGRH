@@ -1,10 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { ListUsersComponent } from './list-users/list-users.component';
-import { UpdateUserComponent } from './update-user/update-user.component';
-import { HomeComponent } from './home/home.component';
 import { authGuard } from './auth.guard';
 import { HeaderComponent } from './header/header.component';
 import { TestComponent } from './test/test.component';
@@ -22,36 +17,32 @@ import { Login1Component } from './login1/login1.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
-  {path:'register', component: RegisterComponent},
 
 
-  {path:'users/update/:id',component: UpdateUserComponent},
-  {path:'listusers',component: ListUsersComponent},
-
-  {path:'login', component: LoginComponent},
-  {path:'home', component: HomeComponent,canActivate:[authGuard]},
+  {path:'', component: AccueilComponent},
 
 
-  {path:'employees', component: TestComponent},
+  {path:'login1', component: Login1Component},
 
-  {path:'header', component: HeaderComponent},
 
-  {path:'test', component: TestComponent},
-  {path:'employee-add', component: AddEmployeeComponent},
-  {path:'employee-update/:id', component: UpdateEmployeeComponent},
+  {path:'dashboard', component: DashboardComponent, canActivate: [authGuard]},
+
+
+
+  {path:'employees', component: TestComponent, canActivate: [authGuard]},
+  {path:'employee-add', component: AddEmployeeComponent, canActivate: [authGuard]},
+  {path:'employee-update/:id', component: UpdateEmployeeComponent, canActivate: [authGuard]},
 
 
   {path:'absences-list', component: ListAbsenceComponent},
-  {path:'calendrier', component: CalendrierComponent},
+  {path:'calendrier', component: CalendrierComponent, canActivate: [authGuard]},
 
 
 
-  {path:'dep-add', component: AddDepartmentComponent},
-  {path:'dep-update/:id', component: UpdateDepartmentComponent},
-  {path:'dep-list', component: ListDepartmentComponent},
-  {path:'', component: AccueilComponent},
-  {path:'login1', component: Login1Component},
-  {path:'dashboard', component: DashboardComponent},
+  {path:'dep-add', component: AddDepartmentComponent, canActivate: [authGuard]},
+  {path:'dep-update/:id', component: UpdateDepartmentComponent, canActivate: [authGuard]},
+  {path:'dep-list', component: ListDepartmentComponent, canActivate: [authGuard]},
+  
 
 ];
 

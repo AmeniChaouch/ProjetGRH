@@ -3,13 +3,8 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { ListUsersComponent } from './list-users/list-users.component';
-import { UpdateUserComponent } from './update-user/update-user.component';
-import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { TestComponent } from './test/test.component';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
@@ -34,14 +29,11 @@ import { ListDepartmentComponent } from './list-department/list-department.compo
 import { AccueilComponent } from './accueil/accueil.component';
 import { Login1Component } from './login1/login1.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { NavbarComponent } from './navbar/navbar.component';
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
-    LoginComponent,
-    ListUsersComponent,
-    UpdateUserComponent,
-    HomeComponent,
     HeaderComponent,
     TestComponent,
     AddEmployeeComponent,
@@ -56,6 +48,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AccueilComponent,
     Login1Component,
     DashboardComponent,
+    NavbarComponent,
 
     
   ],
@@ -78,6 +71,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   providers: [
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),
+    provideCharts(withDefaultRegisterables()),
     
   ],
   bootstrap: [AppComponent]
