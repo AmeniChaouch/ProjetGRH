@@ -17,12 +17,11 @@ mongoose
 
 const users=require("./routes/api/users");
 app.use("/api/users",users);
-
-
-
-
-
 ///////
+
+
+const employees=require("./routes/api/Employee");
+app.use("/api/employees",employees);
 const departmentRoutes = require("./routes/api/Departments");
 app.use("/api/departments", departmentRoutes);
 ////////

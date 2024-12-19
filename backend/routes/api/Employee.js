@@ -42,16 +42,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Get Employee by ID
-router.get("/:id", async (req, res) => {
-    try {
-        const employee = await Employee.findById(req.params.id);
-        if (!employee) return res.status(404).json({ message: "Employee not found" });
-        res.status(200).json(employee);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
+
 
 // Update Employee
 router.put("/:id", async (req, res) => {
@@ -86,4 +77,44 @@ router.get('/totalEmployees', async (req, res) => {
     }
   });
 
+router.get('/employees-by-department', async (req, res) => {
+    try {
+      const employeeCountByDepartment = await Employee.aggregate([
+        {
+          $group: {
+            _id: "$department",
+            departmentName: { $first: "$department" }, // Grouper par département
+            count: { $sum: 1 }, // Calculer le nombre d'employés
+          },
+        },
+      ]);
+  
+      res.status(200).json(employeeCountByDepartment);
+    } catch (err) {
+      console.error('Erreur lors de la récupération des employés par département :', err);
+      res.status(500).json({ message: 'Erreur lors de la récupération des employés par département.' });
+    }
+  });
+
+  router.get('/employees-department', async (req, res) => {
+    try {
+      const employeeCountByDepartment = await Employee.aggregate([
+        {
+          $group: {
+            _id: $department, // Grouper par l'identifiant du département
+            count: { $sum: 1 }, // Compter les employés
+          },
+        },
+         
+      ]);
+  
+      res.status(200).json(employeeCountByDepartment);
+    } catch (err) {
+      res.status(500).json({ message: 'Erreur lors de la récupération des employés par département.' });
+    }
+  });
+  
+  
+  
+  
 module.exports = router;

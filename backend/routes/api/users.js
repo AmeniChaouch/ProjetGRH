@@ -184,6 +184,36 @@ router.post("/login-user", (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   });
 });
+router.get('/total', async (req, res) => {
+  try {
+    // Compter le nombre total d'employés
+    const totalEmployees = await Employee.countDocuments();
+
+    res.status(200).json({  totalEmployees});
+  } catch (err) {
+    console.error('Erreur lors de la récupération du nombre total d\'employés :');
+    }
+});
+router.get('/employees-by-department', async (req, res) => {
+  try {
+    const employeeCountByDepartment = await Employee.aggregate([
+      {
+        $group: {
+          _id: "$department", // Grouper par département
+          count: { $sum: 1 }, // Calculer le nombre d'employés
+        },
+      },
+      {
+        $sort: { count: -1 }, // Trier par ordre décroissant du nombre d'employés (facultatif)
+      },
+    ]);
+
+    res.status(200).json(employeeCountByDepartment);
+  } catch (err) {
+    console.error('Erreur lors de la récupération des employés par département :', err);
+    res.status(500).json({ message: 'Erreur lors de la récupération des employés par département.' });
+  }
+});
 
 
 module.exports=router;
